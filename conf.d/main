@@ -25,4 +25,8 @@ chown -R www-data:www-data $WEBROOT/admin/images/graphs
 chown www-data:www-data $WEBROOT/includes/configure.php
 chown www-data:www-data $WEBROOT/admin/includes/configure.php
 
+# configure apache
+a2dissite default
+a2ensite oscommerce
+a2enmod rewrite
 
