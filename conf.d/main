@@ -79,6 +79,12 @@ sed -i "s|HTTPS_CATALOG_SERVER.*|HTTPS_CATALOG_SERVER', '');|" $CONF
 chmod 440 $WEBROOT/includes/configure.php
 chmod 440 $WEBROOT/admin/includes/configure.php
 
+# remove banner and tweak footer
+$MYSQL_BATCH --database=$DB_NAME --execute "UPDATE banners SET status=0 WHERE banners_id=1;"
+
+CONF=$WEBROOT/includes/languages/english.php
+sed -i "s|FOOTER_TEXT_BODY.*|FOOTER_TEXT_BODY', '<a href=\"http://www.turnkeylinux.org/oscommerce\">osCommerce Appliance</a> - Powered by <a href=\"http://www.turnkeylinux.org\">TurnKey Linux</a>');|" $CONF
+
 # stop services
 /etc/init.d/mysql stop
 /etc/init.d/apache2 stop
