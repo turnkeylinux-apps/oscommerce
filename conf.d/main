@@ -65,6 +65,16 @@ $CURL "${URL}?step=4" --data "${INS_DB}&${INS_WWW}&${INS_USR}"
 rm -rf $WEBROOT/install
 rm -f /tmp/cookie
 
+# blank out hardcoded urls (defaults to dynamic)
+CONF=$WEBROOT/includes/configure.php
+sed -i "s|HTTP_SERVER.*|HTTP_SERVER', '');|" $CONF
+sed -i "s|HTTPS_SERVER.*|HTTPS_SERVER', '');|" $CONF
+
+CONF=$WEBROOT/admin/includes/configure.php
+sed -i "s|HTTP_SERVER.*|HTTP_SERVER', '');|" $CONF
+sed -i "s|HTTP_CATALOG_SERVER.*|HTTP_CATALOG_SERVER', '');|" $CONF
+sed -i "s|HTTPS_CATALOG_SERVER.*|HTTPS_CATALOG_SERVER', '');|" $CONF
+
 # stop services
 /etc/init.d/mysql stop
 /etc/init.d/apache2 stop
