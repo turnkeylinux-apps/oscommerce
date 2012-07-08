@@ -11,3 +11,18 @@ ADMIN_MAIL=admin@example.com
 SRC=/usr/local/src
 WEBROOT=/var/www/oscommerce
 
+# unpack and set permissions
+unzip $SRC/oscommerce-*.zip -d $SRC
+mv $SRC/oscommerce-*/catalog $WEBROOT
+mv $SRC/oscommerce-*/documentation.pdf $WEBROOT
+rm -rf $SRC/oscommerce-*
+chown -R root:root $WEBROOT
+chown -R www-data:www-data $WEBROOT/pub
+chown -R www-data:www-data $WEBROOT/images
+chown -R www-data:www-data $WEBROOT/includes/work
+chown -R www-data:www-data $WEBROOT/admin/backups
+chown -R www-data:www-data $WEBROOT/admin/images/graphs
+chown www-data:www-data $WEBROOT/includes/configure.php
+chown www-data:www-data $WEBROOT/admin/includes/configure.php
+
+
