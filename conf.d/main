@@ -75,6 +75,10 @@ sed -i "s|HTTP_SERVER.*|HTTP_SERVER', '');|" $CONF
 sed -i "s|HTTP_CATALOG_SERVER.*|HTTP_CATALOG_SERVER', '');|" $CONF
 sed -i "s|HTTPS_CATALOG_SERVER.*|HTTPS_CATALOG_SERVER', '');|" $CONF
 
+# secure sensitive files
+chmod 440 $WEBROOT/includes/configure.php
+chmod 440 $WEBROOT/admin/includes/configure.php
+
 # stop services
 /etc/init.d/mysql stop
 /etc/init.d/apache2 stop
