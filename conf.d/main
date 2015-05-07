@@ -14,7 +14,7 @@ WEBROOT=/var/www/oscommerce
 # unpack and set permissions
 unzip $SRC/oscommerce-*.zip -d $SRC
 mv $SRC/oscommerce-*/catalog $WEBROOT
-mv $SRC/oscommerce-*/documentation.pdf $WEBROOT
+mv $SRC/oscommerce-*/docs $WEBROOT
 rm -rf $SRC/oscommerce-*
 chown -R root:root $WEBROOT
 chown -R www-data:www-data $WEBROOT/pub
