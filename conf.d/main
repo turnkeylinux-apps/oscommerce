@@ -26,7 +26,7 @@ chown www-data:www-data $WEBROOT/includes/configure.php
 chown www-data:www-data $WEBROOT/admin/includes/configure.php
 
 # configure apache
-a2dissite default
+a2dissite 000-default
 a2ensite oscommerce
 a2enmod rewrite
 
