@@ -83,7 +83,7 @@ chmod 440 $WEBROOT/admin/includes/configure.php
 $MYSQL_BATCH --database=$DB_NAME --execute "UPDATE banners SET status=0 WHERE banners_id=1;"
 
 CONF=$WEBROOT/includes/languages/english.php
-sed -i "s|FOOTER_TEXT_BODY.*|FOOTER_TEXT_BODY', '<a href=\"http://www.turnkeylinux.org/oscommerce\">osCommerce Appliance</a> - Powered by <a href=\"http://www.turnkeylinux.org\">TurnKey Linux</a>');|" $CONF
+sed -i "s|FOOTER_TEXT_BODY.*|FOOTER_TEXT_BODY', '<a href=\"https://www.turnkeylinux.org/oscommerce\">osCommerce Appliance</a> - Powered by <a href=\"https://www.turnkeylinux.org\">TurnKey Linux</a>');|" $CONF
 
 # stop services
 /etc/init.d/mysql stop
