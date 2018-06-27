@@ -69,11 +69,13 @@ rm -f /tmp/cookie
 CONF=$WEBROOT/includes/configure.php
 sed -i "s|HTTP_SERVER.*|HTTP_SERVER', '');|" $CONF
 sed -i "s|HTTPS_SERVER.*|HTTPS_SERVER', '');|" $CONF
+sed -i "s|ENABLE_SSL.*|ENABLE_SSL', 'true');|" $CONF
 
 CONF=$WEBROOT/admin/includes/configure.php
 sed -i "s|HTTP_SERVER.*|HTTP_SERVER', '');|" $CONF
 sed -i "s|HTTP_CATALOG_SERVER.*|HTTP_CATALOG_SERVER', '');|" $CONF
 sed -i "s|HTTPS_CATALOG_SERVER.*|HTTPS_CATALOG_SERVER', '');|" $CONF
+sed -i "s|ENABLE_SSL.*|ENABLE_SSL', 'true');|" $CONF
 
 # secure sensitive files
 chmod 440 $WEBROOT/includes/configure.php
