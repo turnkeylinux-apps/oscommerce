@@ -82,15 +82,6 @@ def main():
     if domain == "DEFAULT":
         domain = DEFAULT_DOMAIN
 
-    parsed = urlparse.urlparse(domain)
-    if not all([parsed.scheme, parsed.netloc, parsed.params, parsed.query, parsed.fragment]) and parsed.path:
-        # for a correctly formatted domain the prefixed `//` is not necessary making urlparse assume its a
-        # path rather than a netloc
-        domain = parsed.path
-    else:
-        # for a correctly formatted url (not actually what we want), we can safely extract the netloc
-        domain = parsed.netloc
-
     inithooks_cache.write('APP_DOMAIN', domain)
     
 
