@@ -126,6 +126,10 @@ def main():
         with open(conf_path, 'w') as fob:
             fob.write('\n'.join(conf))
 
+    apache_conf = "/etc/apache2/sites-available/oscommerce.conf"
+    system("sed -i \"\|RewriteRule|s|https://.*|https://%s/\$1 [R,L]|\" %s" % (domain, apache_conf))
+
+    system("service apache2 restart")
+
 if __name__ == "__main__":
     main()
-
