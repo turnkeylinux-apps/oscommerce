@@ -45,13 +45,13 @@ $MYSQL_BATCH --execute "grant all privileges on $DB_NAME.* to $DB_USER@localhost
 EMAIL=$(echo $ADMIN_MAIL | sed s/@/%40/)
 C_WWWROOT=$(echo $WEBROOT/ | sed "s|\/|%2F|g")
 
-RPC="http://127.0.0.1/install/rpc.php"
-URL="http://127.0.0.1/install/install.php"
-CURL="curl -c /tmp/cookie -b /tmp/cookie"
+RPC="https://localhost/install/rpc.php"
+URL="https://localhost/install/install.php"
+CURL="curl --insecure -c /tmp/cookie -b /tmp/cookie"
 
 RPC_DB="server=localhost&username=$DB_USER&password=$DB_PASS&name=$DB_NAME"
 INS_DB="DB_SERVER=localhost&DB_SERVER_USERNAME=$DB_USER&DB_SERVER_PASSWORD=$DB_PASS&DB_DATABASE=$DB_NAME"
-INS_WWW="HTTP_WWW_ADDRESS=http%3A%2F%2F127.0.0.1%2F&DIR_FS_DOCUMENT_ROOT=$C_WWWROOT"
+INS_WWW="HTTP_WWW_ADDRESS=https%3A%2F%2Flocalhost%2F&DIR_FS_DOCUMENT_ROOT=$C_WWWROOT"
 INS_USR="CFG_STORE_NAME=TurnKey+osCommerce&CFG_STORE_OWNER_NAME=Admin&CFG_STORE_OWNER_EMAIL_ADDRESS=$EMAIL&CFG_ADMINISTRATOR_USERNAME=$ADMIN_NAME&CFG_ADMINISTRATOR_PASSWORD=$ADMIN_PASS&x=29&y=15"
 
 $CURL "${URL}"
