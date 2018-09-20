@@ -19,6 +19,7 @@ from os.path import *
 
 from dialog_wrapper import Dialog
 from mysqlconf import MySQL
+from executil import system
 
 def fatal(s):
     print >> sys.stderr, "Error:", s
@@ -83,7 +84,6 @@ def main():
         domain = DEFAULT_DOMAIN
 
     inithooks_cache.write('APP_DOMAIN', domain)
-    
 
     command = ["php", join(dirname(__file__), 'oscommerce_pass.php'), password]
     p = subprocess.Popen(command, stdin=PIPE, stdout=PIPE, shell=False)
