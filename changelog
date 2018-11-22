@@ -1,7 +1,7 @@
 turnkey-oscommerce-15.1 (1) turnkey; urgency=low
 
   * Update redirect to domain in Apache conf so that it will accept IP
-    address.
+    address - part of #1230.
 
   * Rebuild to resolve inadvertent removal of mariadb during sec-updates
     - part of #1246.
