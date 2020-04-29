@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """Set osCommerce admin password and email
 
 Option:
@@ -11,7 +11,7 @@ Option:
 import re
 import sys
 import getopt
-import urlparse
+import urllib.parse
 import inithooks_cache
 import subprocess
 from subprocess import PIPE
@@ -19,17 +19,16 @@ from os.path import *
 
 from dialog_wrapper import Dialog
 from mysqlconf import MySQL
-from executil import system
 
 def fatal(s):
-    print >> sys.stderr, "Error:", s
+    print("Error:", s, file=sys.stderr)
     sys.exit(1)
 
 def usage(s=None):
     if s:
-        print >> sys.stderr, "Error:", s
-    print >> sys.stderr, "Syntax: %s [options]" % sys.argv[0]
-    print >> sys.stderr, __doc__
+        print("Error:", s, file=sys.stderr)
+    print("Syntax: %s [options]" % sys.argv[0], file=sys.stderr)
+    print(__doc__, file=sys.stderr)
     sys.exit(1)
 
 DEFAULT_DOMAIN="www.example.com"
@@ -38,7 +37,7 @@ def main():
     try:
         opts, args = getopt.gnu_getopt(sys.argv[1:], "h",
                                        ['help', 'pass=', 'email=', 'domain='])
-    except getopt.GetoptError, e:
+    except getopt.GetoptError as e:
         usage(e)
 
     password = ""
@@ -94,11 +93,11 @@ def main():
     cryptpass = stdout.strip()
 
     m = MySQL()
-    m.execute('UPDATE oscommerce.administrators SET user_password=\"%s\" WHERE user_name=\"admin\";' % cryptpass)
+    m.execute('UPDATE oscommerce.administrators SET user_password=%s WHERE user_name=\"admin\";', (cryptpass,))
 
-    m.execute('UPDATE oscommerce.configuration SET configuration_value=\"%s\" WHERE configuration_key=\"EMAIL_FROM\";' % email)
-    m.execute('UPDATE oscommerce.configuration SET configuration_value=\"%s\" WHERE configuration_key=\"STORE_OWNER_EMAIL_ADDRESS\";' % email)
-    m.execute('UPDATE oscommerce.configuration SET configuration_value=\"%s\" WHERE configuration_key=\"MODULE_PAYMENT_PAYPAL_EXPRESS_SELLER_ACCOUNT\";' % email)
+    m.execute('UPDATE oscommerce.configuration SET configuration_value=%s WHERE configuration_key=\"EMAIL_FROM\";', (email,))
+    m.execute('UPDATE oscommerce.configuration SET configuration_value=%s WHERE configuration_key=\"STORE_OWNER_EMAIL_ADDRESS\";', (email,))
+    m.execute('UPDATE oscommerce.configuration SET configuration_value=%s WHERE configuration_key=\"MODULE_PAYMENT_PAYPAL_EXPRESS_SELLER_ACCOUNT\";', (email,))
 
     conf_paths = (
         '/var/www/oscommerce/admin/includes/configure.php',
@@ -121,15 +120,15 @@ def main():
                     r"define\('HTTP_SERVER', '.*'\);",
                     "define('HTTP_SERVER', 'http://%s');" % domain,
                     line)
-            print(line, conf[i])
+            print((line, conf[i]))
 
         with open(conf_path, 'w') as fob:
             fob.write('\n'.join(conf))
 
     apache_conf = "/etc/apache2/sites-available/oscommerce.conf"
-    system("sed -i \"\|RewriteRule|s|https://.*|https://%s/\$1 [R,L]|\" %s" % (domain, apache_conf))
-    system("sed -i \"\|RewriteCond|s|!^.*|!^%s$|\" %s" % (domain, apache_conf))
-    system("service apache2 restart")
+    subprocess.run(["sed", "-i", "\|RewriteRule|s|https://.*|https://%s/\$1 [R,L]|" % domain, apache_conf])
+    subprocess.run(["sed", "-i", "\|RewriteCond|s|!^.*|!^%s$|" % domain, apache_conf])
+    subprocess.run(["service", "apache2", "restart"])
 
 if __name__ == "__main__":
     main()
