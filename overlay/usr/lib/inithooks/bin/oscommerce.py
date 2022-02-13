@@ -12,12 +12,12 @@ import re
 import sys
 import getopt
 import urllib.parse
-import inithooks_cache
+from libinithooks import inithooks_cache
 import subprocess
 from subprocess import PIPE
 from os.path import *
 
-from dialog_wrapper import Dialog
+from libinithooks.dialog_wrapper import Dialog
 from mysqlconf import MySQL
 
 def fatal(s):
