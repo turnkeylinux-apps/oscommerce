@@ -1,29 +1,15 @@
-#!/bin/sh -ex
-
-DB_NAME=oscommerce
-DB_USER=oscommerce
+#!/bin/bash -ex
+DB_NAME=oscommerce DB_USER=oscommerce
 DB_PASS=$(mcookie)
 
 ADMIN_NAME=admin
-ADMIN_PASS=turnkey
-ADMIN_MAIL=admin@example.com
+ADMIN_PASS=turnkey ADMIN_MAIL=admin@example.com
 
 SRC=/usr/local/src
 WEBROOT=/var/www/oscommerce
 
 # unpack and set permissions
-unzip $SRC/oscommerce-*.zip -d $SRC
-mv $SRC/oscommerce-*/catalog $WEBROOT
-mv $SRC/oscommerce-*/docs $WEBROOT
-rm -rf $SRC/oscommerce-*
-chown -R root:root $WEBROOT
-chown -R www-data:www-data $WEBROOT/pub
-chown -R www-data:www-data $WEBROOT/images
-chown -R www-data:www-data $WEBROOT/includes/work
-chown -R www-data:www-data $WEBROOT/admin/backups
-chown -R www-data:www-data $WEBROOT/admin/images/graphs
-chown www-data:www-data $WEBROOT/includes/configure.php
-chown www-data:www-data $WEBROOT/admin/includes/configure.php
+unzip $SRC/osc_*.zip -d $WEBROOT
 
 # configure apache
 a2dissite 000-default
@@ -31,6 +17,9 @@ a2dissite 000-default
 a2ensite oscommerce
 a2enmod headers
 a2enmod rewrite
+
+# temporarily disable rewrite rules
+sed -i 's/\(RewriteRule.*\)/#\1/' /etc/apache2/sites-available/oscommerce.conf
 
 # start services
 service mysql start
@@ -43,37 +32,81 @@ MYSQL_ADMIN="mysqladmin --user=root --password=$MYSQL_PASS"
 $MYSQL_ADMIN create $DB_NAME
 $MYSQL_BATCH --execute "grant all privileges on $DB_NAME.* to $DB_USER@localhost identified by '$DB_PASS'; flush privileges;"
 
+chown -R www-data:www-data /var/www/oscommerce
+
 # curl based install
 EMAIL=$(echo $ADMIN_MAIL | sed s/@/%40/)
-C_WWWROOT=$(echo $WEBROOT/ | sed "s|\/|%2F|g")
 
-RPC="https://localhost/install/rpc.php"
 URL="https://localhost/install/install.php"
-CURL="curl --insecure -c /tmp/cookie -b /tmp/cookie"
+CURL="curl --insecure -L -c /tmp/cookie -b /tmp/cookie"
+step_data=
 
-RPC_DB="server=localhost&username=$DB_USER&password=$DB_PASS&name=$DB_NAME"
-INS_DB="DB_SERVER=localhost&DB_SERVER_USERNAME=$DB_USER&DB_SERVER_PASSWORD=$DB_PASS&DB_DATABASE=$DB_NAME"
-INS_WWW="HTTP_WWW_ADDRESS=https%3A%2F%2Flocalhost%2F&DIR_FS_DOCUMENT_ROOT=$C_WWWROOT"
-INS_USR="CFG_STORE_NAME=TurnKey+osCommerce&CFG_STORE_OWNER_NAME=Admin&CFG_STORE_OWNER_EMAIL_ADDRESS=$EMAIL&CFG_ADMINISTRATOR_USERNAME=$ADMIN_NAME&CFG_ADMINISTRATOR_PASSWORD=$ADMIN_PASS&x=29&y=15"
+unset HTTP_PROXY HTTPS_PROXY http_proxy https_proxy
 
-$CURL "${URL}"
-$CURL "${RPC}?action=dbCheck&${RPC_DB}"
-$CURL "${RPC}?action=dbImport&${RPC_DB}"
+do_step() {
+    url="$1"
+    data="$2"
+    data="$(echo "$data" | sed 's/=/%3D/')"
+    step_data=$($CURL "$1" -X POST --data-raw "$2" | sed -n '/name="step_data"/ s/.*value="\(.*\)".*/\1/p')
+    sleep 1
+}
 
-$CURL "${URL}?step=2" --data "${INS_DB}"
-$CURL "${URL}?step=3" --data "${INS_DB}&${INS_WWW}"
-$CURL "${URL}?step=4" --data "${INS_DB}&${INS_WWW}&${INS_USR}"
+do_step "https://localhost/index.php?step=step2" 'install_dir=%2F&next=Next'
+do_step "https://localhost/index.php?step=ajax_unpack" 'install_dir=%2F'
+do_step "$URL" "inst_lang=english&next=&current_step=licence&install_done=&step_data=$step_data"
+do_step "$URL" "inst_lang=english&next=&current_step=php_check&install_done=licence&step_data=$step_data"
+do_step "$URL" "inst_lang=english&dbhost=localhost&dbuser=$DB_USER&dbname=$DB_NAME&dbpass=$DB_PASS&next=&current_step=db_access&install_done=licence%2Cphp_check&step_data=$step_data"
+do_step "$URL" "inst_lang=english&platform_type=0"\
+"&platform_owner=Admin"\
+"&platform_name=SalesChannel"\
+"&platform_url=www.example.com"\
+"&enable_ssl=2"\
+"&platform_email=$ADMIN_MAIL"\
+"&platform_from=$ADMIN_MAIL"\
+"&platform_extra="\
+"&platform_phone="\
+"&platform_landline="\
+"&platform_companyname="\
+"&platform_companyvat="\
+"&platform_companyno="\
+"&platform_postcode=9999"\
+"&platform_street=0000"\
+"&platform_suburb="\
+"&platform_city="\
+"&platform_state="\
+"&platform_country=222"\
+"&sample_orders=1"\
+"&next="\
+"&current_step=inst_settings"\
+"&install_done=licence%2Cphp_check%2Cdb_access"\
+"&step_data=$step_data"
+do_step "$URL" "inst_lang=english"\
+"&admin_firstname=admin"\
+"&admin_lastname=istrator"\
+"&username=admin"\
+"&user_email=$ADMIN_MAIL"\
+"&user_password1=$ADMIN_PASS"\
+"&user_password2=$ADMIN_PASS"\
+"&next="\
+"&current_step=admin_user"\
+"&install_done=licence%2Cphp_check%2Cdb_access%2Cinst_settings"\
+"&step_data=$step_data"
+do_step "$URL" "inst_lang=english&next=&current_step=end&install_done=licence%2Cphp_check%2Cdb_access%2Cinst_settings%2Cadmin_user&step_data=$step_data"
+
+# remove odd links to trueloaded.co.uk
+$MYSQL_BATCH --execute 'UPDATE oscommerce.configuration SET configuration_value = "www.example.com" where configuration_title = "Domain"'
+$MYSQL_BATCH --execute 'UPDATE oscommerce.configuration SET configuration_value = "svn://example.com" where configuration_title = "SVN"'
 
 rm -rf $WEBROOT/install
 rm -f /tmp/cookie
 
 # blank out hardcoded urls (defaults to dynamic)
-CONF=$WEBROOT/includes/configure.php
+CONF=$WEBROOT/includes/local/configure.php
 sed -i "s|HTTP_SERVER.*|HTTP_SERVER', '');|" $CONF
 sed -i "s|HTTPS_SERVER.*|HTTPS_SERVER', '');|" $CONF
 sed -i "s|ENABLE_SSL.*|ENABLE_SSL', 'true');|" $CONF
 
-CONF=$WEBROOT/admin/includes/configure.php
+CONF=$WEBROOT/admin/includes/local/configure.php
 sed -i "s|HTTP_SERVER.*|HTTP_SERVER', '');|" $CONF
 sed -i "s|HTTP_CATALOG_SERVER.*|HTTP_CATALOG_SERVER', '');|" $CONF
 sed -i "s|HTTPS_CATALOG_SERVER.*|HTTPS_CATALOG_SERVER', '');|" $CONF
@@ -86,10 +119,11 @@ chmod 440 $WEBROOT/admin/includes/configure.php
 # remove banner and tweak footer
 $MYSQL_BATCH --database=$DB_NAME --execute "UPDATE banners SET status=0 WHERE banners_id=1;"
 
-CONF=$WEBROOT/includes/languages/english.php
-sed -i "s|FOOTER_TEXT_BODY.*|FOOTER_TEXT_BODY', '<a href=\"https://www.turnkeylinux.org/oscommerce\">osCommerce Appliance</a> - Powered by <a href=\"https://www.turnkeylinux.org\">TurnKey Linux</a>');|" $CONF
-
 # stop services
 service mysql stop
 service apache2 stop
 
+rm /etc/apache2/sites-enabled/oscommerce.conf
+ln -s /etc/apache2/sites-{available,enabled}/oscommerce.conf
+
+sed -i 's/#\(RewriteRule.*\)/\1/' /etc/apache2/sites-available/oscommerce.conf
