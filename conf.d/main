@@ -1,9 +1,11 @@
 #!/bin/bash -ex
-DB_NAME=oscommerce DB_USER=oscommerce
+DB_NAME=oscommerce
+DB_USER=oscommerce
 DB_PASS=$(mcookie)
 
 ADMIN_NAME=admin
-ADMIN_PASS=turnkey ADMIN_MAIL=admin@example.com
+ADMIN_PASS=turnkey
+ADMIN_MAIL=admin@example.com
 
 SRC=/usr/local/src
 WEBROOT=/var/www/oscommerce
