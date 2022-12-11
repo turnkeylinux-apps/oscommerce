@@ -2,8 +2,14 @@
 #include <turnkey/lamp>
 
 php-gd
+php-intl
 php-cli
 php-curl
+php-zip
+php-xml
+php-mbstring
+php-soap
+php-xmlrpc
 
 unzip
 

@@ -1,14 +1,15 @@
 <?php
 
-define('PATH_LIBRARY', '/var/www/oscommerce/includes/classes/');
-include PATH_LIBRARY . 'passwordhash.php';
+define('PATH_LIBRARY', '/var/www/oscommerce/lib/common/');
+include PATH_LIBRARY . 'classes/PasswordHash.php';
+$params = include PATH_LIBRARY . 'config/params-local.php';
 
-if(count($argv)!=2) die("usage: $argv[0] password\n");
+if(count($argv)!=3) die("usage: $argv[0] password email\n");
 
 $password = $argv[1];
+$email = $argv[2];
 
-$PasswordHash = new PasswordHash(10, true);
-print $PasswordHash->HashPassword($password);
-
+print 'email ' . password_hash($email . $params['secKey.backend'], PASSWORD_BCRYPT) . "\n";
+print 'password ' . password_hash($password . $params['secKey.backend'], PASSWORD_BCRYPT) . "\n";
 ?>
 

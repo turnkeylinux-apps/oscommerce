@@ -1,11 +1,14 @@
 turnkey-oscommerce-17.0 (1) turnkey; urgency=low
 
+  * Updated osCommerce to 4.07.
+
+  [ Zhenya Hvorostian ]
   * Rebuilt on latest debian bullseye.
 
   * Note: Please refer to turnkey-core's 17.0 changelog for changes common to all
     appliances. Here we only describe changes specific to this appliance.
 
- -- Zhenya Hvorostian <zhenya@turnkeylinux.org>  Sun, 13 Feb 2022 19:27:30 +0300
+ -- Stefan Davis <stefan@turnkeylinux.org>  Mon, 05 Dec 2022 01:27:09 +0000
 
 turnkey-oscommerce-16.1 (1) turnkey; urgency=low
 
@@ -169,4 +172,3 @@ turnkey-oscommerce-12.0 (1) turnkey; urgency=low
     appliances. Here we only describe changes specific to this appliance.
 
  -- Alon Swartz <alon@turnkeylinux.org>  Wed, 01 Aug 2012 08:00:00 +0200
-
