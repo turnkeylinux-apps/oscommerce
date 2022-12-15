@@ -115,8 +115,8 @@ sed -i "s|HTTPS_CATALOG_SERVER.*|HTTPS_CATALOG_SERVER', '');|" $CONF
 sed -i "s|ENABLE_SSL.*|ENABLE_SSL', 'true');|" $CONF
 
 # secure sensitive files
-chmod 440 $WEBROOT/includes/configure.php
-chmod 440 $WEBROOT/admin/includes/configure.php
+chown root:root $WEBROOT/includes/configure.php
+chown root:root $WEBROOT/admin/includes/configure.php
 
 # remove banner and tweak footer
 $MYSQL_BATCH --database=$DB_NAME --execute "UPDATE banners SET status=0 WHERE banners_id=1;"
