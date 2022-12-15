@@ -15,6 +15,7 @@ import urllib.parse
 from libinithooks import inithooks_cache
 import subprocess
 from os.path import *
+from urllib.parse import urlparse
 
 from libinithooks.dialog_wrapper import Dialog
 from mysqlconf import MySQL
@@ -103,11 +104,30 @@ def main():
     m.execute('UPDATE oscommerce.configuration SET configuration_value=%s WHERE configuration_key=\"STORE_OWNER_EMAIL_ADDRESS\";', (email,))
     m.execute('UPDATE oscommerce.configuration SET configuration_value=%s WHERE configuration_key=\"MODULE_PAYMENT_PAYPAL_EXPRESS_SELLER_ACCOUNT\";', (email,))
 
+    platforms = m.execute("SELECT platform_id, platform_url, platform_email_address"
+                          " FROM oscommerce.platforms;", output=True)
+    for platform in platforms:
+        if not platform['platform_url']:
+            continue
+        if not platform['platform_url'].startswith('http'):
+            platform['platform_url'] = f"http://{platform['platform_url']}"
+        parsed_url = urlparse(platform['platform_url'])
+        if not parsed_url.path:  # just domain
+            m.execute('UPDATE oscommerce.platforms'
+                      ' SET platform_url=%s, platform_email_address=%s'
+                      ' WHERE platform_id=%s;',
+                      (domain, email, platform['platform_id'], ))
+        else:  # domain and path
+            this_domain = join(domain, parsed_url.path.lstrip('/'))
+            m.execute('UPDATE oscommerce.platforms'
+                      ' SET platform_url=%s, platform_email_address=%s'
+                      ' WHERE platform_id=%s;',
+                      (this_domain, email, platform['platform_id'], ))
+
     conf_path = '/var/www/oscommerce/admin/includes/local/configure.php'
 
     with open(conf_path, 'r') as fob:
         conf = fob.read().splitlines()
-
 
     for i, line in enumerate(conf[:]):
         if 'HTTPS_SERVER' in line:
