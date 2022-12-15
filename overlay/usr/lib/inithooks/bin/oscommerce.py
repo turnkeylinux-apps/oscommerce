@@ -107,11 +107,12 @@ def main():
     platforms = m.execute("SELECT platform_id, platform_url, platform_email_address"
                           " FROM oscommerce.platforms;", output=True)
     for platform in platforms:
-        if not platform['platform_url']:
+        url = platform['platform_url']
+        if not url:
             continue
-        if not platform['platform_url'].startswith('http'):
-            platform['platform_url'] = f"http://{platform['platform_url']}"
-        parsed_url = urlparse(platform['platform_url'])
+        if not url.startswith('http://') and not url.startswith('https://'):
+            url = f"http://{url}"
+        parsed_url = urlparse(url)
         if not parsed_url.path:  # just domain
             m.execute('UPDATE oscommerce.platforms'
                       ' SET platform_url=%s, platform_email_address=%s'
