@@ -1,0 +1,8 @@
+#!/bin/bash -e
+# set phoenix cart admin password and email
+
+. /etc/default/inithooks
+
+[ -e $INITHOOKS_CONF ] && . $INITHOOKS_CONF
+$INITHOOKS_PATH/bin/phoenix_cart.py --pass="$APP_PASS" --email="$APP_EMAIL" --domain="$APP_DOMAIN"
+
