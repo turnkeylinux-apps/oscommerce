@@ -1,18 +1,20 @@
-osCommerce - Online shop
-========================
+PhoenixCart - Online shop
+=========================
 
-`osCommerce`_ provides everything you need to get started in selling
+`PhoenixCart`_ provides everything you need to get started in selling
 physical and digital goods over the internet, from the Catalog frontend
 that is presented to your customers, to the Administration Tool backend
 that completely handles your products, customers, orders, and online
 store data.
 
+`PhoenixCart`_ is the community continuation of osCommerce.
+
 This appliance includes all the standard features in `TurnKey Core`_,
 and on top of that:
 
-- osCommerce configurations:
+- PhoenixCart configurations:
    
-   - Installed from upstream source code to /var/www/oscommerce
+   - Installed from upstream source code to /var/www/phoenix_cart
 
 - SSL support out of the box.
 - `Adminer`_ administration frontend for MySQL (listening on port
@@ -26,9 +28,9 @@ Credentials *(passwords set at first boot)*
 
 -  Webmin, SSH, MySQL: username **root**
 -  Adminer: username **adminer**
--  osCommerce: username **admin**
+-  PhoenixCart: username **admin**
 
 
-.. _osCommerce: http://www.oscommerce.com/
+.. _PhoenixCart: https://phoenixcart.org/
 .. _TurnKey Core: https://www.turnkeylinux.org/core
 .. _Adminer: http://www.adminer.org/
