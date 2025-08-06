@@ -1,4 +1,4 @@
-turnkey-phoenixcart-19.0 (1) turnkey; urgency=low
+turnkey-phoenixcart-18.1 (1) turnkey; urgency=low
 
   * Replace osCommerce with Phoenix Cart 
 
@@ -53,9 +53,10 @@ turnkey-phoenixcart-19.0 (1) turnkey; urgency=low
   * DEV: Add support for setting max_execution_time & max_input_vars in
     php.ini via appliance Makefile (PHP_MAX_EXECUTION_TIME &
     PHP_MAX_INPUT_VARS).
+
  -- Stefan Davis <stefan@turnkeylinux.org>  Mon, 04 Aug 2025 15:32:07 +1000
 
-turnkey-phoenixcart-18.0 (1) turnkey; urgency=low
+turnkey-oscommerce-18.0 (1) turnkey; urgency=low
 
   * Ensure hashfile includes URL to public key - closes #1864.
 
@@ -132,7 +133,7 @@ turnkey-phoenixcart-18.0 (1) turnkey; urgency=low
 
  -- Jeremy Davis <jeremy@turnkeylinux.org>  Thu, 19 Oct 2023 02:07:44 +0000
 
-turnkey-phoenixcart-17.1 (1) turnkey; urgency=low
+turnkey-oscommerce-17.1 (1) turnkey; urgency=low
 
   * Updated all Debian packages to latest.
     [ autopatched by buildtasks ]
@@ -142,7 +143,7 @@ turnkey-phoenixcart-17.1 (1) turnkey; urgency=low
 
  -- Jeremy Davis <jeremy@turnkeylinux.org>  Fri, 16 Dec 2022 00:11:49 +0000
 
-turnkey-phoenixcart-17.0 (1) turnkey; urgency=low
+turnkey-oscommerce-17.0 (1) turnkey; urgency=low
 
   * Updated osCommerce to 4.07.
 
@@ -154,7 +155,7 @@ turnkey-phoenixcart-17.0 (1) turnkey; urgency=low
 
  -- Stefan Davis <stefan@turnkeylinux.org>  Mon, 05 Dec 2022 01:27:09 +0000
 
-turnkey-phoenixcart-16.1 (1) turnkey; urgency=low
+turnkey-oscommerce-16.1 (1) turnkey; urgency=low
 
   * Rebuilt on latest debian buster.
 
@@ -163,7 +164,7 @@ turnkey-phoenixcart-16.1 (1) turnkey; urgency=low
 
  -- Stefan Davis <stefan@turnkeylinux.org>  Tue, 09 Mar 2021 10:00:53 +1100
 
-turnkey-phoenixcart-16.0 (1) turnkey; urgency=low
+turnkey-oscommerce-16.0 (1) turnkey; urgency=low
 
   * Explcitly disable TLS<1.2 (i.e. SSLv3, TLSv1, TLSv1.1). (v15.x
     TurnKey releases supported TLS 1.2, but could fallback as low as TLSv1).
@@ -184,7 +185,7 @@ turnkey-phoenixcart-16.0 (1) turnkey; urgency=low
 
  -- Stefan Davis <stefan@turnkeylinux.org>  Wed, 29 Apr 2020 16:32:12 +1000
 
-turnkey-phoenixcart-15.1 (1) turnkey; urgency=low
+turnkey-oscommerce-15.1 (1) turnkey; urgency=low
 
   * Update redirect to domain in Apache conf so that it will accept IP
     address - part of #1230.
@@ -194,7 +195,7 @@ turnkey-phoenixcart-15.1 (1) turnkey; urgency=low
 
  -- Jeremy Davis <jeremy@turnkeylinux.org>  Thu, 22 Nov 2018 14:11:54 +1100
 
-turnkey-phoenixcart-15.0 (1) turnkey; urgency=low
+turnkey-oscommerce-15.0 (1) turnkey; urgency=low
 
   * Updated osCommerce to 2.3.4.1.
 
@@ -219,7 +220,7 @@ turnkey-phoenixcart-15.0 (1) turnkey; urgency=low
 
  -- Stefan Davis <stefan@turnkeylinux.org>  Wed, 27 Jun 2018 11:06:53 +1000
 
-turnkey-phoenixcart-14.2 (1) turnkey; urgency=low
+turnkey-oscommerce-14.2 (1) turnkey; urgency=low
 
   * Installed security updates.
 
@@ -228,7 +229,7 @@ turnkey-phoenixcart-14.2 (1) turnkey; urgency=low
 
  -- Jeremy Davis <jeremy@turnkeylinux.org>  Wed, 03 May 2017 11:11:00 +1000
 
-turnkey-phoenixcart-14.1 (1) turnkey; urgency=low
+turnkey-oscommerce-14.1 (1) turnkey; urgency=low
 
   * Installed security updates.
 
@@ -240,7 +241,7 @@ turnkey-phoenixcart-14.1 (1) turnkey; urgency=low
 
  -- Jeremy Davis <jeremy@turnkeylinux.org>  Tue, 01 Mar 2016 16:28:46 +1100
 
-turnkey-phoenixcart-14.0 (1) turnkey; urgency=low
+turnkey-oscommerce-14.0 (1) turnkey; urgency=low
 
   * Upgraded to latest version of Oscommerce.
 
@@ -257,7 +258,7 @@ turnkey-phoenixcart-14.0 (1) turnkey; urgency=low
 
  -- Stefan Davis <nafets.sivad@gmail.com>  Fri, 19 Jun 2015 06:37:13 +0000
 
-turnkey-phoenixcart-13.0 (1) turnkey; urgency=low
+turnkey-oscommerce-13.0 (1) turnkey; urgency=low
 
   * PHPMyAdmin:
 
@@ -269,7 +270,7 @@ turnkey-phoenixcart-13.0 (1) turnkey; urgency=low
 
  -- Alon Swartz <alon@turnkeylinux.org>  Fri, 11 Oct 2013 10:38:13 +0300
 
-turnkey-phoenixcart-12.1 (1) turnkey; urgency=low
+turnkey-oscommerce-12.1 (1) turnkey; urgency=low
 
   * Upgraded to latest version of Oscommerce.
 
@@ -284,7 +285,7 @@ turnkey-phoenixcart-12.1 (1) turnkey; urgency=low
 
  -- Alon Swartz <alon@turnkeylinux.org>  Fri, 05 Apr 2013 08:00:00 +0200
 
-turnkey-phoenixcart-12.0 (1) turnkey; urgency=low
+turnkey-oscommerce-12.0 (1) turnkey; urgency=low
 
   * Initial public release of TurnKey osCommerce.
 
