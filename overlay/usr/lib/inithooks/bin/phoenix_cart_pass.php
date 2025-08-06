@@ -1,6 +1,6 @@
 <?php
 
-define('PATH_LIBRARY', '/var/www/oscommerce/lib/common/');
+define('PATH_LIBRARY', '/var/www/phoenix_cart/lib/common/');
 include PATH_LIBRARY . 'classes/PasswordHash.php';
 $params = include PATH_LIBRARY . 'config/params-local.php';
 
