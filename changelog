@@ -1,61 +1,3 @@
-turnkey-phoenixcart-18.1 (1) turnkey; urgency=low
-
-  * Replace osCommerce with Phoenix Cart 
-
-  * includes latest Debian & TurnKey packages.
-
-  * Configuration console (confconsole) - v2.1.6:
-    - Bugfix broken DNS-01 Let's Encrypt challenge - closes #1876 & #1895.
-      Fixed in v2.1.5 - already included in some appliances.
-    - Let's Encrypt/Dehydrated - bugfix cron failure - closes #1962.
-    - General dehydrated-wrapper code cleanup - now passes shellcheck.
-
-  * Web management console (webmin):
-    - Include webmin-logviewer module by default - closes #1866.
-    - Upgraded webmin to v2.105.
-    - Replace webmin-shell with webmin-xterm module by default - closes #1904.
-
-  * Reduce log noise by creating ntpsec log dir - closes #1952.
-
-  * Confconsole: bugfix broken DNS-01 Let's Encrypt challenge- closes #1876 &
-    #1895.
-    [Jeremy Davis <jeremy@turnkeylinux.org>]
-
-  * Web management console (webmin):
-    - Upgraded webmin to v2.105.
-    - Replace webmin-shell with webmin-xterm module by default - closes #1904.
-    - Removed stunnel reverse proxy (Webmin hosted directly now).
-    - Ensure that Webmin uses HTTPS with default cert
-      (/etc/ssl/private/cert.pem).
-    - Disabled Webmin Let's Encrypt (for now).
-
-  * Web shell (shellinabox):
-    - Completely removed in v18.0 (Webmin now has a proper interactive shell).
-    - Note: previous v18.0 releases did not include webmin-xterm pkg - see
-      above webmin note &/or #1904.
-
-  * Apache mod_evasive config improvements:
-    - Bump DOSPageCount from (default) 2 -> 5 - closes #1951.
-    - DOSLogDir - use default log dir & fix permissions - closes #1950.
-    - Add DOSWhitelist example - commented out.
-
-  * Set mod_evasive log location - makes debugging easier.
-    [ Jeremy Davis <jeremy@turnkeylinux.org> ]
-
-  * Includes new 'tkl-upgrade-php' helper script - to allow easy update/change
-    of PHP version - closes #1892.
-    [Marcos Méndez @ POPSOLUTIONS <https://github.com/marcos-mendez>]
-
-  * Include new 'tkl-update-php' script - to make updating/changing PHP
-    version easier for end users.
-    [Marcos Méndez @ POPSOLUTIONS <https://github.com/marcos-mendez>]
-
-  * DEV: Add support for setting max_execution_time & max_input_vars in
-    php.ini via appliance Makefile (PHP_MAX_EXECUTION_TIME &
-    PHP_MAX_INPUT_VARS).
-
- -- Stefan Davis <stefan@turnkeylinux.org>  Mon, 04 Aug 2025 15:32:07 +1000
-
 turnkey-oscommerce-18.0 (1) turnkey; urgency=low
 
   * Ensure hashfile includes URL to public key - closes #1864.
@@ -130,7 +72,6 @@ turnkey-oscommerce-18.0 (1) turnkey; urgency=low
   * Debian default PHP updated to v8.2.
 
   * Use MariaDB (MySQL replacement) v10.11.3 (from debian repos).
-
  -- Jeremy Davis <jeremy@turnkeylinux.org>  Thu, 19 Oct 2023 02:07:44 +0000
 
 turnkey-oscommerce-17.1 (1) turnkey; urgency=low
