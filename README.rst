@@ -1,6 +1,15 @@
 osCommerce - Online shop
 ========================
 
+**IMPORTANT NOTE**
+New users should not use this appliance.
+
+osCommerce is "abandonware" and has been superseded by `Phoenix Cart` - a
+fork/revival of the original project. So the TurnKey osCommerce appliance has
+been deprecated in favour of a new `Phoenix Cart appliance`_.
+
+---
+
 `osCommerce`_ provides everything you need to get started in selling
 physical and digital goods over the internet, from the Catalog frontend
 that is presented to your customers, to the Administration Tool backend
@@ -30,5 +39,7 @@ Credentials *(passwords set at first boot)*
 
 
 .. _osCommerce: http://www.oscommerce.com/
+.. _Phoenix Cart:  https://phoenixcart.org/
+.. _Phoenix Cart appliance: https://www.turnkeylinux.org/phoenixcart
 .. _TurnKey Core: https://www.turnkeylinux.org/core
 .. _Adminer: http://www.adminer.org/
