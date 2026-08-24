@@ -148,7 +148,8 @@ def main():
     apache_conf = "/etc/apache2/sites-available/oscommerce.conf"
     subprocess.run(["sed", "-i", "\|RewriteRule|s|https://.*|https://%s/\$1 [R,L]|" % domain, apache_conf])
     subprocess.run(["sed", "-i", "\|RewriteCond|s|!^.*|!^%s$|" % domain, apache_conf])
-    subprocess.run(["service", "apache2", "restart"])
+    subprocess.run(["apache2ctl", "configtest"], check=True)
+    subprocess.run(["systemctl", "reload", "apache2.service"], check=True)
 
 if __name__ == "__main__":
     main()
