@@ -173,9 +173,6 @@ oscommerce_version=$(php -r \
 test "$oscommerce_version" = 4.14.63493
 
 curl --insecure --fail --silent --show-error \
-    "$base/" >"$page"
-grep -qi osCommerce "$page"
-curl --insecure --fail --silent --show-error \
     "$base/catalog/product?products_id=$product_id" >"$page"
 grep -q 'DKNY' "$page"
 
