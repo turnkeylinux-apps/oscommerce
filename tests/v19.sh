@@ -172,8 +172,8 @@ oscommerce_version=$(php -r \
     "include '/var/www/oscommerce/includes/version.php'; echo PROJECT_VERSION_MAJOR . '.' . PROJECT_VERSION_MINOR . '.' . PROJECT_VERSION_PATCH;")
 test "$oscommerce_version" = 4.14.63493
 
-curl --insecure --fail --silent --show-error --location \
-    http://localhost/ >"$page"
+curl --insecure --fail --silent --show-error \
+    "$base/" >"$page"
 grep -qi osCommerce "$page"
 curl --insecure --fail --silent --show-error \
     "$base/catalog/product?products_id=$product_id" >"$page"

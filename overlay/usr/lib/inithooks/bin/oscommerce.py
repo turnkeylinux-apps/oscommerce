@@ -146,8 +146,15 @@ def main():
         fob.write('\n'.join(conf))
 
     apache_conf = "/etc/apache2/sites-available/oscommerce.conf"
-    subprocess.run(["sed", "-i", "\|RewriteRule|s|https://.*|https://%s/\$1 [R,L]|" % domain, apache_conf])
-    subprocess.run(["sed", "-i", "\|RewriteCond|s|!^.*|!^%s$|" % domain, apache_conf])
+    subprocess.run([
+        "sed", "-i",
+        r"\|RewriteRule|s|https://.*|https://%s/\$1 [R,L]|" % domain,
+        apache_conf,
+    ], check=True)
+    subprocess.run([
+        "sed", "-i", r"\|RewriteCond|s|!^.*|!^%s$|" % domain,
+        apache_conf,
+    ], check=True)
     subprocess.run(["apache2ctl", "configtest"], check=True)
     subprocess.run(["systemctl", "reload", "apache2.service"], check=True)
 
