@@ -9,9 +9,22 @@ ADMIN_MAIL=admin@example.com
 
 SRC=/usr/local/src
 WEBROOT=/var/www/oscommerce
+OSC_COMMIT=48d31a361b614cfa66e505d4e8345afd9e30ad79
+OSC_SHA256=bc3916d1e41ab992f86a2bd56bdc65786c70974686ae312f8814b2083a78ea84
+OSC_ARCHIVE=oscommerce-v4-$OSC_COMMIT.tar.gz
 
 # unpack and set permissions
-unzip $SRC/osc_*.zip -d $WEBROOT
+mkdir -p "$WEBROOT"
+tar --extract --gzip --file "$SRC/$OSC_ARCHIVE" \
+    --strip-components=1 --directory "$WEBROOT"
+
+install -d /usr/local/share/turnkey
+printf '%s\n' \
+    "version=4.14.63493" \
+    "commit=$OSC_COMMIT" \
+    "source=https://github.com/osCommerce/osCommerce-V4" \
+    "archive_sha256=$OSC_SHA256" \
+    > /usr/local/share/turnkey/oscommerce-source
 
 # configure apache
 a2dissite 000-default
@@ -40,7 +53,7 @@ chown -R www-data:www-data /var/www/oscommerce
 EMAIL=$(echo $ADMIN_MAIL | sed s/@/%40/)
 
 URL="https://localhost/install/install.php"
-CURL="curl --insecure -L -c /tmp/cookie -b /tmp/cookie"
+CURL="curl --fail --silent --show-error --insecure -L -c /tmp/cookie -b /tmp/cookie"
 step_data=
 
 unset HTTP_PROXY HTTPS_PROXY http_proxy https_proxy
@@ -48,13 +61,10 @@ unset HTTP_PROXY HTTPS_PROXY http_proxy https_proxy
 do_step() {
     url="$1"
     data="$2"
-    data="$(echo "$data" | sed 's/=/%3D/')"
-    step_data=$($CURL "$1" -X POST --data-raw "$2" | sed -n '/name="step_data"/ s/.*value="\(.*\)".*/\1/p')
+    step_data=$($CURL "$1" --data-raw "$2" | sed -n '/name="step_data"/ s/.*value="\(.*\)".*/\1/p')
     sleep 1
 }
 
-do_step "https://localhost/index.php?step=step2" 'install_dir=%2F&next=Next'
-do_step "https://localhost/index.php?step=ajax_unpack" 'install_dir=%2F'
 do_step "$URL" "inst_lang=english&next=&current_step=licence&install_done=&step_data=$step_data"
 do_step "$URL" "inst_lang=english&next=&current_step=php_check&install_done=licence&step_data=$step_data"
 do_step "$URL" "inst_lang=english&dbhost=localhost&dbuser=$DB_USER&dbname=$DB_NAME&dbpass=$DB_PASS&next=&current_step=db_access&install_done=licence%2Cphp_check&step_data=$step_data"

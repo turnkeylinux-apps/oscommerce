@@ -1,15 +1,6 @@
 osCommerce - Online shop
 ========================
 
-**IMPORTANT NOTE**
-New users should not use this appliance.
-
-osCommerce is "abandonware" and has been superseded by `Phoenix Cart` - a
-fork/revival of the original project. So the TurnKey osCommerce appliance has
-been deprecated in favour of a new `Phoenix Cart appliance`_.
-
----
-
 `osCommerce`_ provides everything you need to get started in selling
 physical and digital goods over the internet, from the Catalog frontend
 that is presented to your customers, to the Administration Tool backend
@@ -21,7 +12,10 @@ and on top of that:
 
 - osCommerce configurations:
    
-   - Installed from upstream source code to /var/www/oscommerce
+   - osCommerce 4 installed from verified upstream source code to
+     /var/www/oscommerce.
+   - Application updates are available from the System update section of the
+     built-in App Shop.
 
 - SSL support out of the box.
 - `Adminer`_ administration frontend for MySQL (listening on port
@@ -39,7 +33,5 @@ Credentials *(passwords set at first boot)*
 
 
 .. _osCommerce: http://www.oscommerce.com/
-.. _Phoenix Cart:  https://phoenixcart.org/
-.. _Phoenix Cart appliance: https://www.turnkeylinux.org/phoenixcart
 .. _TurnKey Core: https://www.turnkeylinux.org/core
 .. _Adminer: http://www.adminer.org/
