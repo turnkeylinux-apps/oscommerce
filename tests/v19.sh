@@ -159,9 +159,12 @@ post_product_form() {
     grep -qi success "$page"
 }
 
-systemctl --quiet is-active apache2.service mariadb.service postfix.service \
-    multi-user.target
-systemctl --quiet is-enabled apache2.service mariadb.service postfix.service
+for unit in apache2.service mariadb.service postfix.service multi-user.target; do
+    systemctl --quiet is-active "$unit"
+done
+for unit in apache2.service mariadb.service postfix.service; do
+    systemctl --quiet is-enabled "$unit"
+done
 apache2ctl -t
 
 source_manifest=/usr/local/share/turnkey/oscommerce-source
