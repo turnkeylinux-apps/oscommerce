@@ -71,7 +71,7 @@ do_step "$URL" "inst_lang=english&dbhost=localhost&dbuser=$DB_USER&dbname=$DB_NA
 do_step "$URL" "inst_lang=english&platform_type=0"\
 "&platform_owner=Admin"\
 "&platform_name=SalesChannel"\
-"&platform_url=www.example.com"\
+"&platform_url=localhost"\
 "&enable_ssl=2"\
 "&platform_email=$ADMIN_MAIL"\
 "&platform_from=$ADMIN_MAIL"\
@@ -106,7 +106,7 @@ do_step "$URL" "inst_lang=english"\
 do_step "$URL" "inst_lang=english&next=&current_step=end&install_done=licence%2Cphp_check%2Cdb_access%2Cinst_settings%2Cadmin_user&step_data=$step_data"
 
 # remove odd links to trueloaded.co.uk
-$MYSQL_BATCH --execute 'UPDATE oscommerce.configuration SET configuration_value = "www.example.com" where configuration_title = "Domain"'
+$MYSQL_BATCH --execute 'UPDATE oscommerce.configuration SET configuration_value = "localhost" where configuration_title = "Domain"'
 $MYSQL_BATCH --execute 'UPDATE oscommerce.configuration SET configuration_value = "svn://example.com" where configuration_title = "SVN"'
 
 rm -rf $WEBROOT/install

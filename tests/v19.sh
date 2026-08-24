@@ -171,10 +171,20 @@ grep -Fxq 'archive_sha256=bc3916d1e41ab992f86a2bd56bdc65786c70974686ae312f8814b2
 oscommerce_version=$(php -r \
     "include '/var/www/oscommerce/includes/version.php'; echo PROJECT_VERSION_MAJOR . '.' . PROJECT_VERSION_MINOR . '.' . PROJECT_VERSION_PATCH;")
 test "$oscommerce_version" = 4.14.63493
+test "$(mariadb oscommerce --batch --skip-column-names --execute \
+    "SELECT CONCAT(platform_url, '|', ssl_enabled) FROM platforms WHERE platform_id=1")" = \
+    'localhost|2'
+! grep -Fqx 'RewriteCond %{HTTP_HOST} !^www\.' \
+    /var/www/oscommerce/.htaccess
 
-curl --insecure --fail --silent --show-error \
-    "$base/catalog/product?products_id=$product_id" >"$page"
-grep -q 'DKNY' "$page"
+catalog_status=$(curl --insecure --silent --show-error \
+    --dump-header "$headers" --output "$page" --write-out '%{http_code}' \
+    "$base/catalog/product?products_id=$product_id")
+if [[ $catalog_status != 200 ]] || ! grep -q 'DKNY' "$page"; then
+    sed -n '1,40p' "$headers" >&2
+    sed -n '1,40p' "$page" >&2
+    exit 1
+fi
 
 login_admin
 curl --insecure --fail --silent --show-error --location \

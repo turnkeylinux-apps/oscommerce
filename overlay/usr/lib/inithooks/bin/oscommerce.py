@@ -104,6 +104,8 @@ def main():
     m.execute('UPDATE oscommerce.configuration SET configuration_value=%s WHERE configuration_key=\"STORE_OWNER_EMAIL_ADDRESS\";', (email,))
     m.execute('UPDATE oscommerce.configuration SET configuration_value=%s WHERE configuration_key=\"MODULE_PAYMENT_PAYPAL_EXPRESS_SELLER_ACCOUNT\";', (email,))
 
+    m.execute('UPDATE oscommerce.configuration SET configuration_value=%s WHERE configuration_title=\"Domain\";', (domain,))
+
     platforms = m.execute("SELECT platform_id, platform_url, platform_email_address"
                           " FROM oscommerce.platforms;", output=True)
     for platform in platforms:
