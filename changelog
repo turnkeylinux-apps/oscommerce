@@ -1,3 +1,17 @@
+turnkey-oscommerce-19.0 (1) turnkey; urgency=low
+
+  * Install osCommerce 4.14.63493 from a pinned and SHA-256 verified official
+    GitHub source archive.
+
+  * Restore the catalog, administrator and product management flow on Debian
+    13 Trixie with PHP 8.4 and MariaDB 11.8.
+
+  * Retain the built-in App Shop System update path for application updates.
+
+  * Add focused v19 acceptance coverage and testing documentation.
+
+ -- TurnKey GNU/Linux Team <admin@turnkeylinux.org>  Mon, 24 Aug 2026 00:00:00 +0000
+
 turnkey-oscommerce-18.0 (1) turnkey; urgency=low
 
   * Ensure hashfile includes URL to public key - closes #1864.

@@ -1,8 +1,16 @@
 #!/bin/bash -ex
 
-dl() {
-    [ "$FAB_HTTP_PROXY" ] && PROXY="--proxy $FAB_HTTP_PROXY"
-    cd $2; curl -w "%{filename_effective}" -L -f -OJs $PROXY $1; cd -
-}
+COMMIT=48d31a361b614cfa66e505d4e8345afd9e30ad79
+ARCHIVE=oscommerce-v4-$COMMIT.tar.gz
+URL=https://github.com/osCommerce/osCommerce-V4/archive/$COMMIT.tar.gz
+SHA256=bc3916d1e41ab992f86a2bd56bdc65786c70974686ae312f8814b2083a78ea84
 
-dl http://www.oscommerce.com/download-file /usr/local/src
+proxy=()
+if [ -n "$FAB_HTTP_PROXY" ]; then
+    proxy=(--proxy "$FAB_HTTP_PROXY")
+fi
+
+cd /usr/local/src
+curl --fail --location --silent --show-error \
+    "${proxy[@]}" --output "$ARCHIVE" "$URL"
+printf '%s  %s\n' "$SHA256" "$ARCHIVE" | sha256sum --check --strict
